@@ -3,4 +3,18 @@ type Query {
     hello: String!
     helloWithName(name: String!): String!
     helloToGraphQLCourse: String!
+    addImg(file: Upload!): File!
+}
+
+type File {
+    id: ID!
+    path: String!
+    filename: String!
+    mimetype: String!
+    publicId: String!
+    createdAt: String
+    url: String!
+    bytes: Int!
+    width: Int!
+    height: Int!
 }
