@@ -15,7 +15,7 @@ const storeFyleSystem = ({ stream, filename }: any, userId: string) => {
                 if (stream.truncated) {
                     // Delete the truncated file.
                     // Borar el fichero local
-                    // fs.unlinkSync(path);
+                    fs.unlinkSync(path);
                 }
                 reject(error);
             })
@@ -25,16 +25,12 @@ const storeFyleSystem = ({ stream, filename }: any, userId: string) => {
     );
 };
 
-/** Directorio donde se va a subir las imágenes temporalmente */
+/** Directorio donde se va a subir las imágenes temporalmente antes de enviarlas al servicio Cloudinary*/
 const UPLOAD_DIR = './uploads';
-
-
 
 export const processUpload = async (upload: any, cloudinary: any) => {
     // Nos aseguramos que existe el directorio de subida.
-    await mkdirp.sync(UPLOAD_DIR);
-    // Take customer data
-    // const customerData = await db.collection('images').find({id: customer});
+    mkdirp.sync(UPLOAD_DIR);
     const { createReadStream, filename, mimetype } = await upload;
     const stream = createReadStream();
     // Enviar para almacenar
@@ -50,7 +46,7 @@ export const processUpload = async (upload: any, cloudinary: any) => {
     const bytes = await (result.bytes);
     const width = await (result.width);
     const height = await (result.height);
-    // Borrar la imagen de la API
+    // Borrar la imagen local ahora que ya hemos enviado a la API
     fs.unlinkSync(path);
     // Devolver la información del fichero
     return { id, path, filename, mimetype, publicId, createdAt, url, bytes, width, height};
