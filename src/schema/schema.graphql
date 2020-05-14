@@ -3,7 +3,10 @@ type Query {
     hello: String!
     helloWithName(name: String!): String!
     helloToGraphQLCourse: String!
-    addImg(file: Upload!): File!
+}
+
+type Mutation {
+    addPhoto(file: Upload!): File!
 }
 
 type File {
